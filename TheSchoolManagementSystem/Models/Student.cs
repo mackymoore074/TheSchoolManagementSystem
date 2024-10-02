@@ -27,13 +27,11 @@ namespace TheSchoolManagementSystem.Models
         public Administrator? Administrator { get; set; }
 
         // Grades and performance can be stored in a separate entity/table
-        public ICollection<Grade> Grades { get; set; }
         // Navigation property - Student can have multiple teachers
         public ICollection<StudentTeacher> StudentTeachers { get; set; }
         public Student()
         {
             StudentTeachers = new List<StudentTeacher>();
-            Grades = new List<Grade>(); 
         }
 
     }

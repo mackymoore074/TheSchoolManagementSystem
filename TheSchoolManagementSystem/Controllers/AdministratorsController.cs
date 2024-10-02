@@ -267,21 +267,20 @@ namespace TheSchoolManagementSystem.Controllers
             }
             return View(teacher);
         }
-        // POST: Teachers/Delete/5
+        // POST: Teachers/DeleteTeacherConfirmed
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteTeacherConfirmed(int id, Teacher teacher)
+        public async Task<IActionResult> DeleteTeacherConfirmed( Teacher teacher)
         {
-            if (id != teacher.TeacherId)
+            var teachertoDelete = await _context.Teachers.FindAsync(teacher.TeacherId);
+            if (teachertoDelete == null)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
-            {
+            
                 try
                 {
-                    _context.Teachers.Remove(teacher);
+                    _context.Teachers.Remove(teachertoDelete);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Teachers)); // Redirect to Teachers list after successful update
                 }
@@ -295,7 +294,7 @@ namespace TheSchoolManagementSystem.Controllers
                     Console.WriteLine($"Error occurred: {ex.Message}");
                     ModelState.AddModelError(string.Empty, "An error occurred while updating the teacher.");
                 }
-            }
+            
             // If we got here, something went wrong with the form data
             return View(teacher);
 
