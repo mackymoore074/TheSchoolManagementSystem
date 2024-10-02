@@ -131,6 +131,7 @@ namespace TheSchoolManagementSystem.Controllers
             // If we got here, something went wrong with the form data
             return View(student);
         }
+
         // GET: Students/Delete/5
         public async Task<IActionResult> DeleteStudent(int id)
         {
@@ -142,20 +143,21 @@ namespace TheSchoolManagementSystem.Controllers
             return View(student);
         }
 
-        // POST: Students/Delete/5
-        [HttpPost, ActionName("DeleteStudent")]
+        // POST: Students/DeleteStudentConfirmed
+        [HttpPost, ActionName("DeleteStudentConfirmed")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteStudentConfirmed(int id )
+        public async Task<IActionResult> DeleteStudentConfirmed(Student student)
         {
-            var student = await _context.Students.FindAsync(id);
-            if (student == null)
+            // Get the StudentId from the form submission
+            var studentToDelete = await _context.Students.FindAsync(student.StudentId);
+            if (studentToDelete == null)
             {
                 return NotFound();
             }
 
             try
             {
-                _context.Students.Remove(student);
+                _context.Students.Remove(studentToDelete);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Students)); // Redirect to Students list
             }
@@ -164,7 +166,7 @@ namespace TheSchoolManagementSystem.Controllers
                 // Log the exception for debugging
                 Console.WriteLine($"Error occurred: {ex.Message}");
                 ModelState.AddModelError(string.Empty, "An error occurred while deleting the student.");
-                return View(student); // Return to the view in case of error
+                return View(studentToDelete); // Return to the view in case of error
             }
         }
 
