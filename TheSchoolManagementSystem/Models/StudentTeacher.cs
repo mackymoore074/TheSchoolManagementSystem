@@ -2,11 +2,11 @@
 {
     public class StudentTeacher
     {
-        public int StudentId { get; set; }
-        public Student Student { get; set; }
+        public int StudentId { get; set; }=1;
+        public Student? Student { get; set; }
 
-        public int TeacherId { get; set; }
-        public Teacher Teacher { get; set; }
+        public int TeacherId { get; set; }=1;
+        public Teacher? Teacher { get; set; }
     }
 
 }

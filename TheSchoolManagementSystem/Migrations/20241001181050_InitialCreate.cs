@@ -53,7 +53,7 @@ namespace TheSchoolManagementSystem.Migrations
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ParentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    parentPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ParentPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AdministratorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

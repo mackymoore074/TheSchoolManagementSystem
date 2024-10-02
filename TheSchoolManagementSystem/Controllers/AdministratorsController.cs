@@ -59,6 +59,17 @@ namespace TheSchoolManagementSystem.Controllers
                     ModelState.AddModelError(string.Empty, "An error occurred while saving the student.");
                 }
             }
+            else
+            {
+                // Log validation errors
+                foreach (var modelStateEntry in ModelState)
+                {
+                    foreach (var error in modelStateEntry.Value.Errors)
+                    {
+                        Console.WriteLine($"Validation Error: {error.ErrorMessage}"); // Log each validation error
+                    }
+                }
+            }
 
             // If we got here, something went wrong with the form data
             return View(student);

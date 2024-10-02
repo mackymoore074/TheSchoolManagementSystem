@@ -9,11 +9,11 @@ namespace TheSchoolManagementSystem.Models
 
         [Required]
          [StringLength(255)]
-        public string Subject { get; set; }
+        public string Subject { get; set; } = string.Empty;
 
         [Required]
         [Range(0, 100)]
-        public int Marks { get; set; }
+        public int? Marks { get; set; }
 
         // Foreign key for Student
         public ICollection<Student> Students { get; set; }

@@ -123,7 +123,7 @@ namespace TheSchoolManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("parentPhone")
+                    b.Property<string>("ParentPhone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

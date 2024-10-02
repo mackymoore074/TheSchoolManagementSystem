@@ -30,8 +30,9 @@
                 <td>@student.ClassName</td>
                 <td>@student.DateOfBirth.ToShortDateString()</td>
                 <td>@student.Address</td>
+                
                 <td>@student.ParentName</td>
-                <td>@student.parentPhone</td>
+                <td>@student.ParentPhone</td>
                 <td>
                     <a asp-action="EditStudent" asp-route-id="@student.StudentId" class="btn btn-warning">Edit</a>
                     <a asp-action="DeleteStudent" asp-route-id="@student.StudentId" class="btn btn-danger">Delete</a>
