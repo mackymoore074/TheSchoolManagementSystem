@@ -14,6 +14,12 @@ namespace TheSchoolManagementSystem.Controllers
         {
             _context = context;
         }
+        // GET: Students/Authenticate
+        public IActionResult Authenticate()
+        {
+            return View();
+        }
+
         // POST: Students/Authenticate
         [HttpPost]
         public IActionResult Authenticate(int studentId)
@@ -29,7 +35,7 @@ namespace TheSchoolManagementSystem.Controllers
             // Redirect to the Index action with the authenticated student's ID
             return RedirectToAction("Index", new { id = studentId });
         }
-
+       
         // GET: Student Dashboard (Index)
         public IActionResult Index(int id)
         {
