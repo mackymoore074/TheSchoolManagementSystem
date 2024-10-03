@@ -40,9 +40,10 @@ namespace TheSchoolManagementSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(student);
+                
                 try
                 {
+                    _context.Add(student);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Students)); // Redirect to Students list
                 }
@@ -71,7 +72,6 @@ namespace TheSchoolManagementSystem.Controllers
                 }
             }
 
-            // If we got here, something went wrong with the form data
             return View(student);
         }
         // GET: Students/Edit/5

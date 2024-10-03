@@ -22,7 +22,6 @@ namespace TheSchoolManagementSystem.Models
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
-
         [Required]
         public string Subject { get; set; } = string.Empty;
         // Foreign key for Administrator

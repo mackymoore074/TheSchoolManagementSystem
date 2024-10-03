@@ -20,7 +20,6 @@
     <Folder Include="Views\Administrator\TeacherView\" />
     <Folder Include="Views\Grades\" />
     <Folder Include="Views\Teachers\" />
-    <Folder Include="Views\Students\" />
   </ItemGroup>
 
 </Project>

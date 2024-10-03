@@ -1,0 +1,26 @@
+﻿@model IEnumerable<TheSchoolManagementSystem.Models.Subject>
+@{
+    ViewBag.Title = "Register for Subjects";
+}
+
+<h2>Register for Subjects</h2>
+
+<form asp-action="RegisterSubject" method="post">
+    <!-- Hidden field to pass the student ID -->
+    <input type="hidden" name="studentId" value="@ViewBag.StudentId" />
+
+    @foreach (var subject in Model)
+    {
+        <div>
+            <input type="checkbox" name="selectedSubjectIds" value="@subject.SubjectId" />
+            <label>@subject.SubjectName</label>
+        </div>
+    }
+
+    <button type="submit">Register</button>
+    <button type="button" onclick="location.href='@Url.Action("Index", new { id = ViewBag.StudentId })'" class="btn btn-primary">
+        Back to Dashboard
+    </button>
+</form>
+
+

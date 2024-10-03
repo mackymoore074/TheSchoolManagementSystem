@@ -1,0 +1,30 @@
+﻿@model IEnumerable<TheSchoolManagementSystem.Models.Registration>
+    @{
+        ViewBag.Title = "View Grades";
+    }
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Marks</th>
+                <th>Grade</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var grade in Model)
+            {
+                <tr>
+                    <td>@grade.Subject.SubjectName</td>
+                    <td>@grade.Marks</td>
+                    <td>@grade.GetLetterGrade()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+<button type="button" onclick="location.href='@Url.Action("Index", new { id = ViewBag.StudentId })'" class="btn btn-primary">
+    Back to Dashboard
+</button>
+
+

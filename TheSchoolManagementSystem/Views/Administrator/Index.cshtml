@@ -2,9 +2,8 @@
     ViewData["Title"] = "Administrator Dashboard";
 }
 
-<h2>Administrator Dashboard</h2>
 
-<div class="btn-group">
-    <a asp-action="Students" class="btn btn-primary">Manage Students</a>
-    <a asp-action="Teachers" class="btn btn-secondary">Manage Teachers</a>
+<div class="btn-group" role="group" aria-label="Manage">
+    <a asp-action="Students" class="btn btn-primary btn-lg shadow rounded-left">Manage Students</a>
+    <a asp-action="Teachers" class="btn btn-secondary btn-lg shadow rounded-right">Manage Teachers</a>
 </div>

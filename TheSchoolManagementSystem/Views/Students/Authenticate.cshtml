@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Student Authentication";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center">Student Authentication</h1>
+    <p class="text-center">Please enter your Student ID to access your profile.</p>
+
+    <form asp-action="Authenticate" method="post" class="text-center">
+        <div class="form-group">
+            <label for="studentId">Student ID</label>
+            <input type="number" class="form-control" id="studentId" name="studentId" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Access Profile</button>
+    </form>
+</div>
+

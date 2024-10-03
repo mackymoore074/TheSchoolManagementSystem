@@ -1,0 +1,17 @@
+﻿@model TheSchoolManagementSystem.Models.Student
+@{
+    ViewBag.Title = "Student Profile";
+}
+
+<h2>Profile</h2>
+<p><strong>First Name:</strong> @Model.FirstName</p>
+<p><strong>Last Name:</strong> @Model.LastName</p>
+<p><strong>Class:</strong> @Model.ClassName</p>
+<p><strong>Date of Birth:</strong> @Model.DateOfBirth.ToShortDateString()</p>
+<p><strong>Address:</strong> @Model.Address</p>
+<p><strong>Parent Name:</strong> @Model.ParentName</p>
+<p><strong>Parent Phone:</strong> @Model.ParentPhone</p>
+
+<button onclick="location.href='@Url.Action("Index", new { id = Model.StudentId })'" class="btn btn-primary">
+    Back to Dashboard
+</button>

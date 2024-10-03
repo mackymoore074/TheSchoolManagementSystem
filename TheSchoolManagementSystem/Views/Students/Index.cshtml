@@ -1,0 +1,18 @@
+﻿@model TheSchoolManagementSystem.Models.Student
+
+@{
+    ViewData["Title"] = "Student Dashboard";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center">Welcome, @Model.FirstName @Model.LastName</h1>
+    <p class="text-center">Choose an option below to manage your academic activities.</p>
+
+    <div class="btn-group-vertical" role="group" aria-label="Student Actions">
+        <a asp-action="Profile" asp-route-id="@Model.StudentId" class="btn btn-info btn-lg shadow mb-3">View Profile</a>
+        <a asp-action="RegisterSubject" asp-route-id="@Model.StudentId" class="btn btn-success btn-lg shadow mb-3">Register for Subjects</a>
+        <a asp-action="ViewGrades" asp-route-id="@Model.StudentId" class="btn btn-warning btn-lg shadow mb-3">View Grades</a>
+    </div>
+</div>
+
+

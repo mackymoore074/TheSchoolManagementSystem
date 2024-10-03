@@ -7,20 +7,29 @@ namespace TheSchoolManagementSystem.Models
     {
         [Required]
         public int StudentId { get; set; }
-        [Required]
-        public string FirstName { get; set; }= string.Empty;
-        [Required]
-        public string LastName { get; set; }= string.Empty;
-        [Required]
-        public string ClassName { get; set; }= string.Empty;
-        [Required]
+        [Required(ErrorMessage = "First Name is required")]
+        public string FirstName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Last Name is required")]
+        public string LastName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Class Name is required")]
+        public string ClassName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Date of Birth is required")]
+        [DataType(DataType.Date)] // Ensure the format is compatible with input type="date"
         public DateTime DateOfBirth { get; set; }
-        [Required]
-        public string Address { get; set; }= string.Empty;
-        [Required]
-        public string ParentName { get; set; }= string.Empty;
-        [Required]
-        public string ParentPhone { get; set; }= string.Empty;
+
+        [Required(ErrorMessage = "Address is required")]
+        public string Address { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Parent Name is required")]
+        public string ParentName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Parent Phone is required")]
+        [Phone(ErrorMessage = "Please enter a valid phone number")]
+        public string ParentPhone { get; set; } = string.Empty;
+
 
         // Foreign key for administrator
         public int AdministratorId { get; set; }=1;

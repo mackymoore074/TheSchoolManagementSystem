@@ -20,3 +20,80 @@ html {
 body {
   margin-bottom: 60px;
 }
+<style >
+.btn-group .btn {
+    width: 180px; /* Adjust width as per your design */
+    text-align: center;
+}
+
+.btn-group .btn-lg {
+    font-size: 1.2rem; /* Make the buttons text slightly larger */
+}
+
+.btn-group .btn-primary {
+    background-color: #007bff;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-group .btn-primary:hover {
+        background-color: #0056b3; /* Darken the blue on hover */
+    }
+
+.btn-group .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-group .btn-secondary:hover {
+        background-color: #5a6268; /* Darken the gray on hover */
+    }
+
+.btn-group .btn-lg.shadow {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a soft shadow to the buttons */
+}
+
+/* Custom sidebar styles */
+#sidebar {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    background-color: #f8f9fa;
+    padding-top: 20px;
+}
+
+    #sidebar ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        #sidebar ul li {
+            padding: 10px;
+        }
+
+            #sidebar ul li a {
+                display: block;
+                color: #343a40;
+                text-decoration: none;
+                padding: 10px;
+                font-size: 1.1em;
+            }
+
+                #sidebar ul li a:hover {
+                    background-color: #007bff;
+                    color: white;
+                }
+
+/* Push main content to the right to accommodate the sidebar */
+#content {
+    margin-left: 240px;
+    padding: 20px;
+}
+
+/* Footer styling */
+footer {
+    margin-left: 240px;
+}
