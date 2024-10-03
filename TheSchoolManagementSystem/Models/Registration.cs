@@ -9,7 +9,7 @@ namespace TheSchoolManagementSystem.Models
         public Student? Student { get; set; }
         public int SubjectId { get; set; }
         public Subject? Subject { get; set; }
-        public string Grade { get; set; }
+        public string? Grade { get; set; }
         [Required]
         [Range(0, 100)]
         public int? Marks { get; set; }
