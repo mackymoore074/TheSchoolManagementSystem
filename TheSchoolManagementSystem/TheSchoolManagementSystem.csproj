@@ -15,10 +15,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Administrator\StudentView\" />
-    <Folder Include="Views\Administrator\TeacherView\" />
-    <Folder Include="Views\Grades\" />
-  </ItemGroup>
-
 </Project>

@@ -1,7 +1,7 @@
 ﻿@model TheSchoolManagementSystem.Models.Teacher
 
 @{
-    ViewData["Title"] = "Teacher Dashboard";
+    ViewData["Title"] = "";
 }
 
 <div class="container mt-4">
@@ -9,7 +9,7 @@
 
     <p class="text-center">You are teaching: @Model.Subject</p> <!-- Directly use the Subject string -->
 
-    <p class="text-center">Choose an option below to manage your academic activities.</p>
+    <p class="text-center">Choose an option below to manage your activities.</p>
 
     <div class="btn-group-vertical" role="group" aria-label="Teacher Actions">
         <a asp-action="Profile" asp-route-id="@Model.TeacherId" class="btn btn-info btn-lg shadow mb-3">View Profile</a>

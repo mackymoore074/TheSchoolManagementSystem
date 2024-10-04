@@ -12,14 +12,13 @@
     <!-- Sidebar -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h4>Our School</h4>
         </div>
         <ul>
             <li>
-                <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-primary">Home</a>
             </li>
             <li>
-                <a asp-area="" asp-controller="Administrator" asp-action="Index">Administrators</a>
+                <a asp-area="" asp-controller="Administrator" asp-action="Index" class="btn btn-primary">Administrators</a>
             </li>
             <li>
                 <a asp-area="" asp-controller="Teacher" asp-action="Authenticate" class="btn btn-primary">Teachers</a>
@@ -27,9 +26,6 @@
             <li>
                 <a asp-controller="Students" asp-action="Authenticate" class="btn btn-primary">Student Access</a>
             </li>
-            @* <li>
-                <a asp-area="" asp-controller="Registration" asp-action="Index">Registration</a>
-            </li> *@
         </ul>
     </nav>
 

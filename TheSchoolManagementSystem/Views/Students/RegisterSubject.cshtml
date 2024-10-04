@@ -3,8 +3,6 @@
     ViewBag.Title = "Register for Subjects";
 }
 
-<h2>Register for Subjects</h2>
-
 <form asp-action="RegisterSubject" method="post">
     <!-- Hidden field to pass the student ID -->
     <input type="hidden" name="studentId" value="@ViewBag.StudentId" />
