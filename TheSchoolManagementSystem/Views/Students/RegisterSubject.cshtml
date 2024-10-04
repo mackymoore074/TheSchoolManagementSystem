@@ -12,13 +12,13 @@
     @foreach (var subject in Model)
     {
         <div>
-            <input type="checkbox" name="selectedSubjectIds" value="@subject.SubjectId" />
+            <input type="checkbox" name="selectedSubjectIds[]" value="@subject.SubjectId" />
             <label>@subject.SubjectName</label>
         </div>
     }
 
     <button type="submit">Register</button>
-    <button type="button" onclick="location.href='@Url.Action("Index", new { id = ViewBag.StudentId })'" class="btn btn-primary">
+    <button type="button" onclick="window.history.back()" class="btn btn-primary">
         Back to Dashboard
     </button>
 </form>

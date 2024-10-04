@@ -96,29 +96,35 @@ namespace TheSchoolManagementSystem.Controllers
         [HttpPost]
         // POST: Register for Subject
         [HttpPost]
-        public IActionResult RegisterSubject(int studentId, int subjectId)
+        public IActionResult RegisterSubject(int studentId, int[] selectedSubjectIds)
         {
-            // Check if the student is already registered for the subject
-            if (_context.Registrations.Any(r => r.StudentId == studentId && r.SubjectId == subjectId))
+            foreach (var subjectId in selectedSubjectIds)
             {
-                ModelState.AddModelError(string.Empty, "You are already registered for this subject.");
-                return RedirectToAction("RegisterSubject", new { id = studentId });
+                // Check if the student is already registered for the subject
+                if (_context.Registrations.Any(r => r.StudentId == studentId && r.SubjectId == subjectId))
+                {
+                    ModelState.AddModelError(string.Empty, $"You are already registered for subject with ID {subjectId}.");
+                    continue; // Skip to the next subject if already registered
+                }
+
+                // Register the student for the subject
+                var registration = new Registration
+                {
+                    StudentId = studentId,
+                    SubjectId = subjectId,
+                    Marks = 0 // Initial marks can be set to 0
+                };
+
+                // Calculate grade directly in the controller
+                registration.Grade = CalculateGrade(registration.Marks);
+
+                _context.Registrations.Add(registration);
             }
 
-            // Register the student for the subject
-            var registration = new Registration
-            {
-                StudentId = studentId,
-                SubjectId = subjectId,
-                Marks = 0 // Initial marks can be set to 0
-            };
-
-            // Calculate grade directly in the controller
-            registration.Grade = CalculateGrade(registration.Marks);
-
-            _context.Registrations.Add(registration);
+            // Save changes to the database after processing all subjects
             _context.SaveChanges();
 
+            // Redirect to view grades after successful registration
             return RedirectToAction("ViewGrades", new { id = studentId });
         }
 
