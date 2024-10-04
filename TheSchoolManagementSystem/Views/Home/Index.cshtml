@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Welcome to the School Management System";
+    Layout = null;
 }
 
 <!DOCTYPE html>
@@ -7,23 +7,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"]</title>
+    <title>School Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #f8f9fa; /* Light background for contrast */
+        /* Add custom styles for the hero section */
+        .hero {
+            background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            color: white;
         }
-        .welcome-container {
-            padding: 40px;
-            background-color: #ffffff; /* White background for content */
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        
+        .hero .overlay {
+            background-color: rgba(0, 0, 0, 0.5); /* Dark overlay for contrast */
+            padding: 100px 0; /* Adjust padding as needed */
         }
     </style>
 </head>
 <body>
 
-    <div class="container welcome-container text-center">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
     <a class="navbar-brand" href="#">SchoolMS</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,16 +39,16 @@
           <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
+          <a class="nav-link" href="/administrator">Administrator</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Testimonials</a>
+          <a class="nav-link" href="/Teacher/Authenticate">Teacher</a>
         </li>
+        @* <li class="nav-item">
+          <a class="nav-link" href="#">Student</a>
+        </li> *@
         <li class="nav-item">
-          <a class="nav-link" href="#">Contact</a>
-        </li>
-        <li class="nav-item">
-          <a class="btn btn-primary" href="#">Login</a>
+          <a class="btn btn-primary" href="/Students/Authenticate">Login</a>
         </li>
       </ul>
     </div>
@@ -52,12 +56,14 @@
 </nav>
 
 <!-- Hero Section -->
-<header class="bg-primary text-white text-center py-5">
-  <div class="container">
-    <h1 class="display-4">Efficient School Management Made Easy</h1>
-    <p class="lead">Manage students, teachers, and classes seamlessly with SchoolMS.</p>
-    <a href="#" class="btn btn-lg btn-light">Get Started</a>
-  </div>
+<header class="hero">
+    <div class="overlay">
+        <div class="container text-center">
+            <h1 class="display-4">Efficient School Management Made Easy</h1>
+            <p class="lead">Manage students, teachers, and classes seamlessly with SchoolMS.</p>
+            <a href="#" class="btn btn-lg btn-light">Get Started</a>
+        </div>
+    </div>
 </header>
 
 <!-- Features Section -->
@@ -103,7 +109,7 @@
       <div class="col-lg-4">
         <div class="card shadow-sm">
           <div class="card-body">
-            <p class="card-text">"SchoolMS transformed the way we handle student data."</p>
+            <p class="card-text">"SchoolMS transformed the way we handle student data. Highly recommended!"</p>
             <div class="d-flex align-items-center">
               <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Profile">
               <div>
@@ -146,7 +152,17 @@
   </div>
 </section>
 
-    </div>
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-4">
+  <div class="container">
+    <p class="mb-0">© 2024 SchoolMS. All Rights Reserved.</p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="#" class="text-white">Privacy Policy</a></li>
+      <li class="list-inline-item"><a href="#" class="text-white">Terms of Use</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
