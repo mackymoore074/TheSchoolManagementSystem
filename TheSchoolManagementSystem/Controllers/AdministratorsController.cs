@@ -167,7 +167,7 @@ namespace TheSchoolManagementSystem.Controllers
                 // Log the exception for debugging
                 Console.WriteLine($"Error occurred: {ex.Message}");
                 ModelState.AddModelError(string.Empty, "An error occurred while deleting the student.");
-                return View(studentToDelete); // Return to the view in case of error
+                return RedirectToAction(nameof(Students));; // Return to the view in case of error
             }
         }
 
@@ -300,7 +300,7 @@ namespace TheSchoolManagementSystem.Controllers
             }
 
             // If we got here, something went wrong with the form data
-            return View(teacher);
+           return RedirectToAction(nameof(Teachers));
         }
 
         // GET: Registration/Registrations
@@ -450,8 +450,12 @@ namespace TheSchoolManagementSystem.Controllers
             {
                 return NotFound();
             }
-            // Wrap the teacher list in a SelectList for the dropdown
-            ViewBag.Teachers = new SelectList(_context.Teachers.ToList(), "TeacherId", "Name");
+
+            var teachers = await _context.Teachers
+            .Select(t => new { t.TeacherId, FullName = t.FirstName + " " + t.LastName })
+            .ToListAsync();
+            
+            ViewBag.Teachers = new SelectList(teachers, "TeacherId", "FullName");
             return View(subject);
         }
 

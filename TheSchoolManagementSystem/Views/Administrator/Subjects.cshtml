@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Subjects";
+    int sn = 1; 
 }
 
 <div>
@@ -11,6 +12,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th>S/N</th>
             <th>Subject Name</th>
             <th>Teacher</th>
             <th>Actions</th>
@@ -20,6 +22,7 @@
         @foreach (var subject in Model)
         {
             <tr>
+                <td>@(sn++)</td>
                 <td>@subject.SubjectName</td>
                 <td>@subject.Teacher?.FirstName @subject.Teacher?.LastName</td> <!-- Assuming Teacher has FirstName and LastName properties -->
                 <td>
