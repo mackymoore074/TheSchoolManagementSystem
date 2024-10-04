@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TheSchoolManagementSystem.Data;
 using TheSchoolManagementSystem.Models;
+using System.Linq;
 
 namespace TheSchoolManagementSystem.Controllers
 {
@@ -14,36 +15,47 @@ namespace TheSchoolManagementSystem.Controllers
             _context = context;
         }
 
-        // GET: Teachers
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Teachers.ToListAsync());
-        }
-
-        // GET: Teachers/Create
-        public IActionResult Create()
+        // GET: Teacher/Authenticate
+        public IActionResult Authenticate()
         {
             return View();
         }
 
-        // POST: Teachers/Create
+        // POST: Teacher/Authenticate
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Teacher teacher)
+        public IActionResult Authenticate(int teacherId)
         {
-            if (ModelState.IsValid)
+            var teacher = _context.Teachers.FirstOrDefault(t => t.TeacherId == teacherId);
+
+            if (teacher == null)
             {
-                _context.Add(teacher);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError(string.Empty, "Invalid Teacher ID.");
+                return View(); // Re-display the view with an error message
             }
-            return View(teacher);
+
+            // Redirect to the Index action with the authenticated teacher's ID
+            return RedirectToAction("Index", new { id = teacherId });
         }
 
-        // GET: Teachers/Edit/5
-        public async Task<IActionResult> Edit(int id)
+        // GET: Teacher Index (Dashboard)
+        public IActionResult Index(int id)
         {
-            var teacher = await _context.Teachers.FindAsync(id);
+            var teacher = _context.Teachers
+                .Include(t => t.StudentTeachers) // Include any related data if necessary
+                .FirstOrDefault(t => t.TeacherId == id); // Find teacher by ID
+
+            if (teacher == null)
+            {
+                return NotFound(); // Return a 404 if the teacher does not exist
+            }
+
+            return View(teacher); // Pass the teacher object to the view
+        }
+
+        // GET: Teacher Profile
+        public IActionResult Profile(int id)
+        {
+            var teacher = _context.Teachers.FirstOrDefault(t => t.TeacherId == id);
             if (teacher == null)
             {
                 return NotFound();
@@ -51,40 +63,44 @@ namespace TheSchoolManagementSystem.Controllers
             return View(teacher);
         }
 
-        // POST: Teachers/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Teacher teacher)
+        // GET: View Students in a Subject
+        public IActionResult ViewStudents(int teacherId, int subjectId)
         {
-            if (id != teacher.TeacherId)
+            var students = _context.Registrations
+                .Include(r => r.Student)
+                .Where(r => r.SubjectId == subjectId)
+                .ToList();
+
+            ViewBag.SubjectId = subjectId;
+
+            return View(students);
+        }
+
+        // GET: Award Marks to a Student
+        public IActionResult AwardMarks(int registrationId)
+        {
+            var registration = _context.Registrations.FirstOrDefault(r => r.RegistrationId == registrationId);
+            if (registration == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(teacher);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TeacherExists(teacher.TeacherId))
-                    {
-                        return NotFound();
-                    }
-                    throw;
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(teacher);
+            return View(registration);
         }
 
-        private bool TeacherExists(int id)
+        // POST: Award Marks to a Student
+        [HttpPost]
+        public IActionResult AwardMarks(Registration registration)
         {
-            return _context.Teachers.Any(e => e.TeacherId == id);
+            if (ModelState.IsValid)
+            {
+                _context.Registrations.Update(registration);
+                _context.SaveChanges();
+
+                return RedirectToAction("ViewStudents", new { teacherId = registration.Subject.TeacherId, subjectId = registration.SubjectId });
+            }
+
+            return View(registration);
         }
     }
 }
-

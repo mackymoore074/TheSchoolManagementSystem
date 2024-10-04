@@ -98,6 +98,7 @@ namespace TheSchoolManagementSystem.Controllers
             var registration = new Registration
             {
                 StudentId = studentId,
+
                 SubjectId = subjectId,
                 Marks = 0 // Initial marks can be set to 0
             };

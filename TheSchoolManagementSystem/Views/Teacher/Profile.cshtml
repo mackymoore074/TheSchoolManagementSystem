@@ -1,0 +1,23 @@
+﻿@model TheSchoolManagementSystem.Models.Teacher
+
+@{
+    ViewData["Title"] = "Teacher Profile";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center">Profile of @Model.FirstName @Model.LastName</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Personal Information</h5>
+            <p><strong>First Name:</strong> @Model.FirstName</p>
+            <p><strong>Last Name:</strong> @Model.LastName</p>
+            <p><strong>Subject:</strong> @Model.Subject</p>
+            <p><strong>Email:</strong> @Model.Email</p>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a asp-action="Index" asp-controller="Teacher" class="btn btn-primary">Back to Dashboard</a>
+    </div>
+</div>

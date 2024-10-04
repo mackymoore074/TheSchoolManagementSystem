@@ -1,0 +1,38 @@
+﻿@model IEnumerable<TheSchoolManagementSystem.Models.Registration>
+
+@{
+    ViewData["Title"] = "Registrations";
+}
+
+<h2>Registrations</h2>
+
+<div>
+    <a asp-action="CreateRegistration" class="btn btn-primary">Create New Registration</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Student</th>
+            <th>Subject</th>
+            <th>Marks</th>
+            <th>Letter Grade</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var registration in Model)
+        {
+            <tr>
+                <td>@registration.Student.FirstName @registration.Student.LastName</td>
+                <td>@registration.Subject.SubjectName</td>
+                <td>@registration.Marks</td>
+                <td>@registration.GetLetterGrade()</td>
+                <td>
+                    <a asp-action="EditRegistration" asp-route-id="@registration.RegistrationId" class="btn btn-warning">Edit</a>
+                    <a asp-action="DeleteRegistration" asp-route-id="@registration.RegistrationId" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,42 @@
+﻿@model TheSchoolManagementSystem.Models.Registration
+
+@{
+    ViewData["Title"] = "Edit Registration";
+}
+
+<h2>Edit Registration</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="RegistrationId" />
+
+            <div class="form-group">
+                <label asp-for="StudentId" class="control-label">Student</label>
+                <select asp-for="StudentId" class="form-control" asp-items="@(new SelectList(ViewBag.Students, "StudentId", "FullName", Model.StudentId))">
+                    <option value="">Select a Student</option>
+                </select>
+                <span asp-validation-for="StudentId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SubjectId" class="control-label">Subject</label>
+                <select asp-for="SubjectId" class="form-control" asp-items="@(new SelectList(ViewBag.Subjects, "SubjectId", "SubjectName", Model.SubjectId))">
+                    <option value="">Select a Subject</option>
+                </select>
+                <span asp-validation-for="SubjectId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save Changes" class="btn btn-primary" />
+                <a asp-action="ManageRegistrations" class="btn btn-secondary">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
