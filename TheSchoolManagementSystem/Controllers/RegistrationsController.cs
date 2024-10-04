@@ -39,30 +39,6 @@ namespace TheSchoolManagementSystem.Controllers
             return View(registration);
         }
 
-        // GET: Registration/Create
-        public IActionResult Create()
-        {
-            ViewBag.Students = _context.Students.ToList(); // List of Students for dropdown
-            ViewBag.Subjects = _context.Subjects.ToList(); // List of Subjects for dropdown
-            return View();
-        }
-
-        // POST: Registration/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Registration registration)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(registration);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewBag.Students = _context.Students.ToList();
-            ViewBag.Subjects = _context.Subjects.ToList();
-            return View(registration);
-        }
-
         // GET: Registration/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
@@ -71,6 +47,7 @@ namespace TheSchoolManagementSystem.Controllers
             {
                 return NotFound();
             }
+
             ViewBag.Students = _context.Students.ToList();
             ViewBag.Subjects = _context.Subjects.ToList();
             return View(registration);
@@ -106,6 +83,7 @@ namespace TheSchoolManagementSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewBag.Students = _context.Students.ToList();
             ViewBag.Subjects = _context.Subjects.ToList();
             return View(registration);

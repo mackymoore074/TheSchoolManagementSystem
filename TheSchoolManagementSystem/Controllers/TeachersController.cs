@@ -97,7 +97,7 @@ namespace TheSchoolManagementSystem.Controllers
                 _context.Registrations.Update(registration);
                 _context.SaveChanges();
 
-                return RedirectToAction("ViewStudents", new { teacherId = registration.Subject.TeacherId, subjectId = registration.SubjectId });
+                return RedirectToAction("ViewStudents", new { teacherId = registration.Subject?.TeacherId, subjectId = registration.SubjectId });
             }
 
             return View(registration);

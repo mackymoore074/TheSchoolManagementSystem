@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations;
 using TheSchoolManagementSystem.Models;
 
 namespace TheSchoolManagementSystem.Data
@@ -16,8 +15,6 @@ namespace TheSchoolManagementSystem.Data
         public DbSet<StudentTeacher> StudentTeachers { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Registration> Registrations { get; set; }
-
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,8 +35,18 @@ namespace TheSchoolManagementSystem.Data
                 .WithMany(t => t.StudentTeachers)
                 .HasForeignKey(st => st.TeacherId)
                 .OnDelete(DeleteBehavior.Cascade); // Allow cascade delete
+
+            // Seed Administrator data
+            modelBuilder.Entity<Administrator>().HasData(
+                new Administrator
+                {
+                    AdministratorId = 2,
+                    FirstName = "Super",
+                    LastName = "Admin",
+                    Email = "admin@example.com",
+                    Password = "Admin@123"  // For actual apps, always hash the password!
+                }
+            );
         }
-
     }
-
 }

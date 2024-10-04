@@ -14,6 +14,7 @@ namespace TheSchoolManagementSystem.Controllers
         {
             _context = context;
         }
+
         // GET: Students/Authenticate
         public IActionResult Authenticate()
         {
@@ -35,13 +36,12 @@ namespace TheSchoolManagementSystem.Controllers
             // Redirect to the Index action with the authenticated student's ID
             return RedirectToAction("Index", new { id = studentId });
         }
-       
+
         // GET: Student Dashboard (Index)
         public IActionResult Index(int id)
         {
-            // Fetch the student from the database using the provided StudentId
             var student = _context.Students
-                .Include(s => s.StudentTeachers) // Include any related data if necessary
+                .Include(s => s.StudentTeachers) // Include related data if necessary
                 .FirstOrDefault(s => s.StudentId == id); // Find student by ID
 
             if (student == null)
@@ -52,7 +52,6 @@ namespace TheSchoolManagementSystem.Controllers
             return View(student); // Pass the student object to the view
         }
 
-
         // GET: View Student Profile
         public IActionResult Profile(int id)
         {
@@ -61,36 +60,48 @@ namespace TheSchoolManagementSystem.Controllers
             {
                 return NotFound();
             }
+
             return View(student);
         }
 
         // GET: Register for Subjects
+        // GET: Register for Subjects
         public IActionResult RegisterSubject(int id)
         {
-            var student = _context.Students.FirstOrDefault(s => s.StudentId == id);
+            var student = _context.Students.Find(id); // Use Find for better readability
             if (student == null)
             {
                 return NotFound();
             }
 
-            // Get all available subjects (you can customize this to exclude already registered subjects)
-            var subjects = _context.Subjects.ToList();
+            // Get subjects that the student has not registered for
+            var registeredSubjectIds = _context.Registrations
+                .Where(r => r.StudentId == id)
+                .Select(r => r.SubjectId)
+                .ToList();
+
+            // List subjects the student hasn't registered for yet
+            var availableSubjects = _context.Subjects
+                .Where(s => !registeredSubjectIds.Contains(s.SubjectId))
+                .ToList();
+
             ViewBag.StudentId = id;
 
-            return View(subjects);
+            // Pass only available subjects to the view
+            return View(availableSubjects);
         }
 
+
+        // POST: Register for Subject
+        [HttpPost]
         // POST: Register for Subject
         [HttpPost]
         public IActionResult RegisterSubject(int studentId, int subjectId)
         {
             // Check if the student is already registered for the subject
-            var existingRegistration = _context.Registrations
-                .FirstOrDefault(r => r.StudentId == studentId && r.SubjectId == subjectId);
-
-            if (existingRegistration != null)
+            if (_context.Registrations.Any(r => r.StudentId == studentId && r.SubjectId == subjectId))
             {
-                ModelState.AddModelError("", "You are already registered for this subject.");
+                ModelState.AddModelError(string.Empty, "You are already registered for this subject.");
                 return RedirectToAction("RegisterSubject", new { id = studentId });
             }
 
@@ -98,10 +109,12 @@ namespace TheSchoolManagementSystem.Controllers
             var registration = new Registration
             {
                 StudentId = studentId,
-
                 SubjectId = subjectId,
                 Marks = 0 // Initial marks can be set to 0
             };
+
+            // Calculate grade directly in the controller
+            registration.Grade = CalculateGrade(registration.Marks);
 
             _context.Registrations.Add(registration);
             _context.SaveChanges();
@@ -109,10 +122,41 @@ namespace TheSchoolManagementSystem.Controllers
             return RedirectToAction("ViewGrades", new { id = studentId });
         }
 
+        // Utility method to calculate the grade based on Marks
+        private string CalculateGrade(int? marks)
+        {
+            if (marks == null)
+            {
+                return "No Marks"; // Handle case where marks are not set
+            }
+            if (marks >= 90 && marks <= 100)
+            {
+                return "A";
+            }
+            else if (marks >= 75 && marks <= 89)
+            {
+                return "B";
+            }
+            else if (marks >= 65 && marks <= 74)
+            {
+                return "C";
+            }
+            else if (marks >= 50 && marks <= 64)
+            {
+                return "D";
+            }
+            else
+            {
+                return "F";
+            }
+        }
+
+
+
         // GET: View Grades
         public IActionResult ViewGrades(int id)
         {
-            var student = _context.Students.FirstOrDefault(s => s.StudentId == id);
+            var student = _context.Students.Find(id);
             if (student == null)
             {
                 return NotFound();
@@ -124,7 +168,7 @@ namespace TheSchoolManagementSystem.Controllers
                                  .Include(r => r.Subject)
                                  .ToList();
 
-            if (grades.Count == 0)
+            if (!grades.Any())
             {
                 ViewBag.NoGrades = "You have not been graded for any subjects yet.";
             }

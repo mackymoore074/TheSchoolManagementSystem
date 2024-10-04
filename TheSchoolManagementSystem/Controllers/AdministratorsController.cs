@@ -432,47 +432,30 @@ namespace TheSchoolManagementSystem.Controllers
         }
 
         // GET: Administrator/CreateSubject
-        public IActionResult CreateSubject()
+        public async Task<IActionResult> CreateSubject()
         {
-            try
-            {
-                // Ensure Teachers list is populated for the SelectList dropdown
-                ViewBag.Teachers = new SelectList(_context.Teachers.ToList(), "TeacherId", "FirstName");
-                return View();
-            }
-            catch (Exception ex)
-            {
-                // Log error and return an error view/message
-                Console.WriteLine($"Error fetching teachers: {ex.Message}");
-                return View("Error", new ErrorViewModel { RequestId = "Unable to load teachers for subject creation." });
-            }
+            var teachers = await _context.Teachers
+            .Select(t => new { t.TeacherId, FullName = t.FirstName + " " + t.LastName })
+            .ToListAsync();
+            ViewBag.Teachers = teachers;
+
+            return View();
         }
 
         // POST: Administrator/CreateSubject
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateSubject(Subject subject)
+        public async Task<IActionResult> CreateSubject(Subject subject)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    // Add the subject and save changes
-                    _context.Subjects.Add(subject);
-                    _context.SaveChanges();
-                    return RedirectToAction(nameof(Subjects));  // Redirect to subjects list
-                }
-
-                // If model state is invalid, repopulate the teacher list
-                ViewBag.Teachers = new SelectList(_context.Teachers.ToList(), "TeacherId", "FirstName");
-                return View(subject);
+                _context.Subjects.Add(subject);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Subjects));
             }
-            catch (Exception ex)
-            {
-                // Log error and return an error view/message
-                Console.WriteLine($"Error creating subject: {ex.Message}");
-                return View("Error", new ErrorViewModel { RequestId = "Unable to create subject." });
-            }
+            // If model is invalid, repopulate the SelectList
+            ViewBag.Teachers = new SelectList(_context.Teachers.ToList(), "TeacherId", "Name");
+            return View(subject);
         }
 
         // GET: Administrator/EditSubject/{id}
