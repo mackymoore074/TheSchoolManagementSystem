@@ -31,12 +31,25 @@
 
     <!-- Main content -->
     <div id="content">
-        <header>
-            <h2>@ViewData["Title"]</h2>
-        </header>
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                       <header>
+                            <h2>@ViewData["Title"]</h2>
+                        </header>
+                </div>
+            </div>
+            <div class="card-body">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+            <div class="card-footer">
+                 <h6 class="text-right" style="text-align: right !important;">@ViewData["Title"]</h6>
+            </div>
+        </div>
+     
+        
     </div>
 
     <!-- Footer -->
