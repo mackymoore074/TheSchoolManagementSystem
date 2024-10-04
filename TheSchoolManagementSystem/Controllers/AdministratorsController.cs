@@ -419,8 +419,8 @@ namespace TheSchoolManagementSystem.Controllers
         public async Task<IActionResult> CreateSubject()
         {
             var teachers = await _context.Teachers
-    .Select(t => new { t.TeacherId, FullName = t.FirstName + " " + t.LastName })
-    .ToListAsync();
+            .Select(t => new { t.TeacherId, FullName = t.FirstName + " " + t.LastName })
+            .ToListAsync();
             ViewBag.Teachers = teachers;
 
             return View();

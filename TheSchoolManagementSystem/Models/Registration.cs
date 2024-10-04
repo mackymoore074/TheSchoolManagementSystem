@@ -9,11 +9,24 @@ namespace TheSchoolManagementSystem.Models
         public Student? Student { get; set; }
         public int SubjectId { get; set; }
         public Subject? Subject { get; set; }
-        public string? Grade { get; set; }
+
+        private int? _marks;
+        
         [Required]
         [Range(0, 100)]
-        public int? Marks { get; set; }
+        public int? Marks 
+        { 
+            get { return _marks; }
+            set
+            {
+                _marks = value;
+                Grade = GetLetterGrade(); // Automatically update Grade when Marks are set
+            }
+        }
 
+        public string? Grade { get; set; }
+
+        // Method to calculate the letter grade based on the marks
         public string GetLetterGrade()
         {
             if (Marks == null)
@@ -40,8 +53,6 @@ namespace TheSchoolManagementSystem.Models
             {
                 return "F";
             }
-
-
         }
     }
 }

@@ -49,6 +49,12 @@ namespace TheSchoolManagementSystem.Controllers
                 return NotFound(); // Return a 404 if the teacher does not exist
             }
 
+            var subject = _context.Subjects
+                .FirstOrDefault(s => s.TeacherId == id);
+            Console.WriteLine($"Error occurred: {subject}");
+            // ViewBag.SubjectId = subject.subjectId;
+
+            ViewBag.SubjectId = subject?.SubjectId;
             return View(teacher); // Pass the teacher object to the view
         }
 
@@ -72,7 +78,6 @@ namespace TheSchoolManagementSystem.Controllers
                 .ToList();
 
             ViewBag.SubjectId = subjectId;
-
             return View(students);
         }
 
@@ -90,16 +95,20 @@ namespace TheSchoolManagementSystem.Controllers
 
         // POST: Award Marks to a Student
         [HttpPost]
-        public IActionResult AwardMarks(Registration registration)
+        public IActionResult AwardMarks(int registrationId, int marks)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Registrations.Update(registration);
-                _context.SaveChanges();
+            var registration = _context.Registrations
+        .Include(r => r.Student) 
+        .FirstOrDefault(r => r.RegistrationId == registrationId);
 
-                return RedirectToAction("ViewStudents", new { teacherId = registration.Subject?.TeacherId, subjectId = registration.SubjectId });
+            if (registration == null)
+            {
+                return NotFound();
             }
 
+            registration.Marks = marks;
+            registration.Grade = registration.GetLetterGrade();
+            _context.SaveChanges();
             return View(registration);
         }
     }
