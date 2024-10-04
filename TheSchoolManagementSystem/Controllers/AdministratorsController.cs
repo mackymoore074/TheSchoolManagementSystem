@@ -416,17 +416,20 @@ namespace TheSchoolManagementSystem.Controllers
         }
 
         // GET: Administrator/CreateSubject
-        public IActionResult CreateSubject()
+        public async Task<IActionResult> CreateSubject()
         {
-            // Wrap the teacher list in a SelectList
-            ViewBag.Teachers = new SelectList(_context.Teachers.ToList(), "TeacherId", "Name");
+            var teachers = await _context.Teachers.ToListAsync();
+
+            // Pass the teachers list to the ViewBag
+            ViewBag.Teachers = teachers;
+
             return View();
         }
 
         // POST: Administrator/CreateSubject
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateSubject(Subject subject)
+        public async Task<IActionResult> CreateSubject(Subject subject)
         {
             if (ModelState.IsValid)
             {
@@ -435,7 +438,7 @@ namespace TheSchoolManagementSystem.Controllers
                 return RedirectToAction(nameof(Subjects));
             }
             // If model is invalid, repopulate the SelectList
-            ViewBag.Teachers = new SelectList(_context.Teachers.ToList(), "TeacherId", "Name");
+            ViewBag.Teachers = await _context.Teachers.ToListAsync();
             return View(subject);
         }
 

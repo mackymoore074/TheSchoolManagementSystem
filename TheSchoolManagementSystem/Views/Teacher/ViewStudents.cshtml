@@ -18,7 +18,7 @@
         @foreach (var registration in Model)
         {
             <tr>
-                <td>@registration.Student.FirstName @registration.Student.LastName</td>
+                <td>@registration.Student?.FirstName @registration.Student?.LastName</td>
                 <td>@registration.Marks</td>
                 <td>
                     <a asp-action="AwardMarks" asp-route-registrationId="@registration.RegistrationId" class="btn btn-warning">Award Marks</a>

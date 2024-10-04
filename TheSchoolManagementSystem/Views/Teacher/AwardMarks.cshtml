@@ -4,7 +4,7 @@
     ViewData["Title"] = "Award Marks";
 }
 
-<h2>Award Marks for @Model.Student.FirstName @Model.Student.LastName</h2>
+<h2>Award Marks for @Model.Student?.FirstName @Model.Student?.LastName</h2>
 
 <form asp-action="AwardMarks" method="post">
     <input type="hidden" name="RegistrationId" value="@Model.RegistrationId" />
@@ -13,7 +13,7 @@
         <input type="number" class="form-control" id="Marks" name="Marks" value="@Model.Marks" required />
     </div>
     <button type="submit" class="btn btn-primary">Submit Marks</button>
-    <button onclick="location.href='@Url.Action("ViewStudents", new { teacherId = Model.Subject.TeacherId, subjectId = Model.SubjectId })'" class="btn btn-secondary">
+    <button onclick="location.href='@Url.Action("ViewStudents", new { teacherId = Model.Subject?.TeacherId, subjectId = Model.SubjectId })'" class="btn btn-secondary">
         Back to Students
     </button>
 </form>

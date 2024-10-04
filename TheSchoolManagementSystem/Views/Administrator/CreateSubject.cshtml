@@ -14,7 +14,10 @@
     </div>
     <div class="form-group">
         <label asp-for="TeacherId"></label>
-        <select asp-for="TeacherId" class="form-control" asp-items="@(new SelectList(ViewBag.Teachers, "TeacherId", "Name"))">
+        @* <select asp-for="TeacherId" class="form-control" asp-items="@(new SelectList(ViewBag.Teachers, "TeacherId", "Name"))">
+            <option value="">Select a Teacher</option>
+        </select> *@
+        <select asp-for="TeacherId" class="form-control" asp-items="@(new SelectList(ViewBag.Teachers, "TeacherId", "FirstName"))">
             <option value="">Select a Teacher</option>
         </select>
         <span asp-validation-for="TeacherId" class="text-danger"></span>

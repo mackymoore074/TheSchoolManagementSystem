@@ -24,8 +24,8 @@
         @foreach (var registration in Model)
         {
             <tr>
-                <td>@registration.Student.FirstName @registration.Student.LastName</td>
-                <td>@registration.Subject.SubjectName</td>
+                <td>@registration.Student?.FirstName @registration.Student?.LastName</td>
+                <td>@registration.Subject?.SubjectName</td>
                 <td>@registration.Marks</td>
                 <td>@registration.GetLetterGrade()</td>
                 <td>

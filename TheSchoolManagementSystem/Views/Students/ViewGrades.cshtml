@@ -15,7 +15,7 @@
             @foreach (var grade in Model)
             {
                 <tr>
-                    <td>@grade.Subject.SubjectName</td>
+                    <td>@grade.Subject?.SubjectName</td>
                     <td>@grade.Marks</td>
                     <td>@grade.GetLetterGrade()</td>
                 </tr>
