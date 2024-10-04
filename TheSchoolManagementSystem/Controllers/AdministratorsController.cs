@@ -418,9 +418,9 @@ namespace TheSchoolManagementSystem.Controllers
         // GET: Administrator/CreateSubject
         public async Task<IActionResult> CreateSubject()
         {
-            var teachers = await _context.Teachers.ToListAsync();
-
-            // Pass the teachers list to the ViewBag
+            var teachers = await _context.Teachers
+            .Select(t => new { t.TeacherId, FullName = t.FirstName + " " + t.LastName })
+            .ToListAsync();
             ViewBag.Teachers = teachers;
 
             return View();
