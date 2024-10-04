@@ -313,26 +313,40 @@ namespace TheSchoolManagementSystem.Controllers
         // GET: Registration/Create
         public IActionResult CreateRegistration()
         {
-            ViewBag.Subjects = _context.Subjects.ToList(); // Get subjects to populate dropdown
-            ViewBag.Students = _context.Students.ToList(); // Get students to populate dropdown
+            ViewBag.Subjects = new SelectList(_context.Subjects.ToList(), "SubjectId", "SubjectName"); // Get subjects to populate dropdown
+            ViewBag.Students = new SelectList(_context.Students.ToList(), "StudentId", "FirstName"); // Get students to populate dropdown
             return View();
         }
+
 
         // POST: Registration/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateRegistration(Registration registration)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) // Check if the model state is valid
             {
-                _context.Add(registration);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Registrations)); // Redirect to Registrations list
+                try
+                {
+                    _context.Add(registration); // Add the registration to the context
+                    _context.SaveChanges(); // Save changes to the database
+                    return RedirectToAction(nameof(Registrations)); // Redirect to the registrations list
+                }
+                catch (DbUpdateException ex)
+                {
+                    // Log the error (you could use a logging framework here)
+                    Console.WriteLine($"Error saving registration: {ex.Message}");
+                    ModelState.AddModelError(string.Empty, "Unable to save changes. Try again, and if the problem persists, contact your administrator.");
+                }
             }
-            ViewBag.Subjects = _context.Subjects.ToList();
-            ViewBag.Students = _context.Students.ToList();
-            return View(registration);
+
+            // Repopulate dropdowns on failure
+            ViewBag.Subjects = new SelectList(_context.Subjects.ToList(), "SubjectId", "SubjectName");
+            ViewBag.Students = new SelectList(_context.Students.ToList(), "StudentId", "FirstName");
+
+            return View(registration); // Return the view with the current registration data
         }
+
 
         // GET: Registration/Edit/5
         public async Task<IActionResult> EditRegistration(int id)
@@ -342,8 +356,9 @@ namespace TheSchoolManagementSystem.Controllers
             {
                 return NotFound();
             }
-            ViewBag.Subjects = _context.Subjects.ToList(); // Get subjects to populate dropdown
-            ViewBag.Students = _context.Students.ToList(); // Get students to populate dropdown
+
+            ViewBag.Subjects = new SelectList(_context.Subjects.ToList(), "SubjectId", "SubjectName"); // Get subjects to populate dropdown
+            ViewBag.Students = new SelectList(_context.Students.ToList(), "StudentId", "FirstName"); // Get students to populate dropdown
             return View(registration);
         }
 
@@ -377,11 +392,12 @@ namespace TheSchoolManagementSystem.Controllers
                 }
             }
 
-            // If we got here, something went wrong with the form data
-            ViewBag.Subjects = _context.Subjects.ToList();
-            ViewBag.Students = _context.Students.ToList();
+            // Repopulate dropdowns on failure
+            ViewBag.Subjects = new SelectList(_context.Subjects.ToList(), "SubjectId", "SubjectName");
+            ViewBag.Students = new SelectList(_context.Students.ToList(), "StudentId", "FirstName");
             return View(registration);
         }
+
 
         // GET: Registration/Delete/5
         public async Task<IActionResult> DeleteRegistration(int id)
@@ -418,9 +434,18 @@ namespace TheSchoolManagementSystem.Controllers
         // GET: Administrator/CreateSubject
         public IActionResult CreateSubject()
         {
-            // Wrap the teacher list in a SelectList
-            ViewBag.Teachers = new SelectList(_context.Teachers.ToList(), "TeacherId", "Name");
-            return View();
+            try
+            {
+                // Ensure Teachers list is populated for the SelectList dropdown
+                ViewBag.Teachers = new SelectList(_context.Teachers.ToList(), "TeacherId", "FirstName");
+                return View();
+            }
+            catch (Exception ex)
+            {
+                // Log error and return an error view/message
+                Console.WriteLine($"Error fetching teachers: {ex.Message}");
+                return View("Error", new ErrorViewModel { RequestId = "Unable to load teachers for subject creation." });
+            }
         }
 
         // POST: Administrator/CreateSubject
@@ -428,57 +453,99 @@ namespace TheSchoolManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateSubject(Subject subject)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Subjects.Add(subject);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Subjects));
+                if (ModelState.IsValid)
+                {
+                    // Add the subject and save changes
+                    _context.Subjects.Add(subject);
+                    _context.SaveChanges();
+                    return RedirectToAction(nameof(Subjects));  // Redirect to subjects list
+                }
+
+                // If model state is invalid, repopulate the teacher list
+                ViewBag.Teachers = new SelectList(_context.Teachers.ToList(), "TeacherId", "FirstName");
+                return View(subject);
             }
-            // If model is invalid, repopulate the SelectList
-            ViewBag.Teachers = new SelectList(_context.Teachers.ToList(), "TeacherId", "Name");
-            return View(subject);
+            catch (Exception ex)
+            {
+                // Log error and return an error view/message
+                Console.WriteLine($"Error creating subject: {ex.Message}");
+                return View("Error", new ErrorViewModel { RequestId = "Unable to create subject." });
+            }
         }
 
         // GET: Administrator/EditSubject/{id}
         public async Task<IActionResult> EditSubject(int id)
         {
-            var subject = await _context.Subjects.FindAsync(id);
-            if (subject == null)
+            try
             {
-                return NotFound();
+                var subject = await _context.Subjects.FindAsync(id);
+                if (subject == null)
+                {
+                    return NotFound();
+                }
+
+                // Pre-select the current teacher in the dropdown
+                ViewBag.Teachers = new SelectList(_context.Teachers.ToList(), "TeacherId", "FirstName", subject.TeacherId);
+                return View(subject);
             }
-            // Wrap the teacher list in a SelectList for the dropdown
-            ViewBag.Teachers = new SelectList(_context.Teachers.ToList(), "TeacherId", "Name");
-            return View(subject);
+            catch (Exception ex)
+            {
+                // Log error and return an error view/message
+                Console.WriteLine($"Error fetching subject or teachers: {ex.Message}");
+                return View("Error", new ErrorViewModel { RequestId = "Unable to load subject for editing." });
+            }
         }
 
 
-        // GET: Administrator/DeleteSubject/{id}
-        public async Task<IActionResult> DeleteSubject(int id)
-        {
-            var subject = await _context.Subjects.FindAsync(id);
-            if (subject == null)
-            {
-                return NotFound();
-            }
-            return View(subject);
-        }
-
-        // POST: Administrator/DeleteSubjectConfirmed/{id}
-        [HttpPost, ActionName("DeleteSubjectConfirmed")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteSubjectConfirmed(int id)
+        public async Task<IActionResult> EditSubject(int id, Subject subject)
         {
-            var subject = await _context.Subjects.FindAsync(id);
-            if (subject == null)
+            try
             {
-                return NotFound();
-            }
+                // Check if the provided subject ID matches the URL ID
+                if (id != subject.SubjectId)
+                {
+                    return NotFound();
+                }
 
-            _context.Subjects.Remove(subject);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Subjects));
+                // Ensure the model state is valid
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(subject);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Subjects)); // Redirect after a successful update
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        // Handle concurrency issues
+                        if (!_context.Subjects.Any(e => e.SubjectId == id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                // If model validation fails, repopulate the teacher list for the dropdown with the selected teacher pre-selected
+                ViewBag.Teachers = new SelectList(_context.Teachers.ToList(), "TeacherId", "FirstName", subject.TeacherId);
+                return View(subject); // Return the same view with validation messages
+            }
+            catch (Exception ex)
+            {
+                // Log the error for debugging purposes
+                Console.WriteLine($"Error updating subject: {ex.Message}\n{ex.StackTrace}");
+                return View("Error", new ErrorViewModel { RequestId = "Unable to edit subject." });
+            }
         }
 
     }
+
 }

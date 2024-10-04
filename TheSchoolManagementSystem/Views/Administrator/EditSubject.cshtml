@@ -14,11 +14,12 @@
     </div>
     <div class="form-group">
         <label asp-for="TeacherId"></label>
-        <select asp-for="TeacherId" class="form-control" asp-items="@(new SelectList(ViewBag.Teachers, "TeacherId", "Name", Model.TeacherId))">
+        <select asp-for="TeacherId" asp-items="(SelectList)ViewBag.Teachers" class="form-control">
             <option value="">Select a Teacher</option>
         </select>
         <span asp-validation-for="TeacherId" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-    <a asp-action="Subjects" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-primary">Edit</button>
 </form>
+
+
