@@ -13,7 +13,6 @@
             background-color: #f8f9fa; /* Light background for contrast */
         }
         .welcome-container {
-            margin-top: 100px;
             padding: 40px;
             background-color: #ffffff; /* White background for content */
             border-radius: 10px;
@@ -24,8 +23,129 @@
 <body>
 
     <div class="container welcome-container text-center">
-        <h1 class="display-4">Welcome</h1>
-        <p>We are excited to welcome you to the School Management System, a platform designed to streamline your academic experience and enhance communication within our school community.</p>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="#">SchoolMS</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Testimonials</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-primary" href="#">Login</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<header class="bg-primary text-white text-center py-5">
+  <div class="container">
+    <h1 class="display-4">Efficient School Management Made Easy</h1>
+    <p class="lead">Manage students, teachers, and classes seamlessly with SchoolMS.</p>
+    <a href="#" class="btn btn-lg btn-light">Get Started</a>
+  </div>
+</header>
+
+<!-- Features Section -->
+<section class="py-5">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-lg-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <i class="bi bi-person-fill h1 text-primary"></i>
+            <h5 class="card-title">Student Management</h5>
+            <p class="card-text">Track student progress, attendance, and grades effortlessly.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <i class="bi bi-file-earmark-check h1 text-primary"></i>
+            <h5 class="card-title">Teacher Management</h5>
+            <p class="card-text">Assign courses, monitor performance, and engage with staff.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <i class="bi bi-calendar-check h1 text-primary"></i>
+            <h5 class="card-title">Class Scheduling</h5>
+            <p class="card-text">Easily manage and plan class schedules for the entire school.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="bg-light py-5">
+  <div class="container">
+    <h2 class="text-center mb-5">What Our Users Say</h2>
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <p class="card-text">"SchoolMS transformed the way we handle student data."</p>
+            <div class="d-flex align-items-center">
+              <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Profile">
+              <div>
+                <h6 class="mb-0">John Doe</h6>
+                <small>Principal, ABC School</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <p class="card-text">"Managing my class schedules has never been easier. Excellent platform!"</p>
+            <div class="d-flex align-items-center">
+              <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Profile">
+              <div>
+                <h6 class="mb-0">Jane Smith</h6>
+                <small>Teacher, XYZ School</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <p class="card-text">"Our school’s admin tasks have become so much more efficient. Love it!"</p>
+            <div class="d-flex align-items-center">
+              <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Profile">
+              <div>
+                <h6 class="mb-0">Sarah Johnson</h6>
+                <small>Administrator, DEF School</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
     </div>
 </body>
 </html>
