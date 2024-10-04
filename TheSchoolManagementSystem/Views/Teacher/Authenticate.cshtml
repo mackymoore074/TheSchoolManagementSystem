@@ -1,17 +1,24 @@
 ﻿@model TheSchoolManagementSystem.Models.Teacher
 
 @{
-    ViewData["Title"] = "Teacher Authentication";
+    @* ViewData["Title"] = "Teacher Authentication"; *@
 }
 
-<form asp-action="Authenticate" method="post">
-    <div class="form-group">
-        <label for="TeacherId">Teacher ID:</label>
-        <input type="text" id="TeacherId" name="TeacherId" class="form-control" required />
+<div class="container d-flex align-items-center justify-content-center" style="height: 80vh;">
+    <div class="card shadow-lg p-4 w-50">
+        <div class="card-body">
+            <h2 class="card-title text-center mb-4">Teacher Login</h2>
+            <form asp-action="Authenticate" method="post">
+                <div class="form-group mb-3">
+                    <label for="TeacherId">Teacher ID:</label>
+                    <input type="text" id="TeacherId" name="TeacherId" class="form-control" required />
+                </div>
+                <div class="form-group mb-4">
+                    <label for="Password">Password:</label>
+                    <input type="password" id="Password" name="Password" class="form-control" required />
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="Password">Password:</label>
-        <input type="password" id="Password" name="Password" class="form-control" required />
-    </div>
-    <button type="submit" class="btn btn-primary">Login</button>
-</form>
+</div>
