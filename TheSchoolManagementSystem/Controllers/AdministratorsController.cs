@@ -303,112 +303,7 @@ namespace TheSchoolManagementSystem.Controllers
            return RedirectToAction(nameof(Teachers));
         }
 
-        // GET: Registration/Registrations
-        public IActionResult Registrations()
-        {
-            var registrations = _context.Registrations.Include(r => r.Subject).Include(r => r.Student).ToList();
-            return View(registrations);
-        }
-
-        // GET: Registration/Create
-        public IActionResult CreateRegistration()
-        {
-            ViewBag.Subjects = _context.Subjects.ToList(); // Get subjects to populate dropdown
-            ViewBag.Students = _context.Students.ToList(); // Get students to populate dropdown
-            return View();
-        }
-
-        // POST: Registration/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult CreateRegistration(Registration registration)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(registration);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Registrations)); // Redirect to Registrations list
-            }
-            ViewBag.Subjects = _context.Subjects.ToList();
-            ViewBag.Students = _context.Students.ToList();
-            return View(registration);
-        }
-
-        // GET: Registration/Edit/5
-        public async Task<IActionResult> EditRegistration(int id)
-        {
-            var registration = await _context.Registrations.FindAsync(id);
-            if (registration == null)
-            {
-                return NotFound();
-            }
-            ViewBag.Subjects = _context.Subjects.ToList(); // Get subjects to populate dropdown
-            ViewBag.Students = _context.Students.ToList(); // Get students to populate dropdown
-            return View(registration);
-        }
-
-        // POST: Registration/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditRegistration(int id, Registration registration)
-        {
-            if (id != registration.RegistrationId) // Assuming you have RegistrationId in your model
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(registration);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Registrations)); // Redirect to Registrations list after successful update
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    Console.WriteLine("Concurrency exception occurred while updating the registration.");
-                    throw;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error occurred: {ex.Message}");
-                    ModelState.AddModelError(string.Empty, "An error occurred while updating the registration.");
-                }
-            }
-
-            // If we got here, something went wrong with the form data
-            ViewBag.Subjects = _context.Subjects.ToList();
-            ViewBag.Students = _context.Students.ToList();
-            return View(registration);
-        }
-
-        // GET: Registration/Delete/5
-        public async Task<IActionResult> DeleteRegistration(int id)
-        {
-            var registration = await _context.Registrations.FindAsync(id);
-            if (registration == null)
-            {
-                return NotFound();
-            }
-            return View(registration);
-        }
-
-        // POST: Registration/DeleteConfirmed
-        [HttpPost, ActionName("DeleteRegistrationConfirmed")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteRegistrationConfirmed(int id)
-        {
-            var registration = await _context.Registrations.FindAsync(id);
-            if (registration == null)
-            {
-                return NotFound();
-            }
-
-            _context.Registrations.Remove(registration);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Registrations)); // Redirect to Registrations list
-        }
+       
         public IActionResult Subjects()
         {
             var subjects = _context.Subjects.Include(s => s.Teacher).ToList();
@@ -460,32 +355,39 @@ namespace TheSchoolManagementSystem.Controllers
         }
 
 
-        // GET: Administrator/DeleteSubject/{id}
-        public async Task<IActionResult> DeleteSubject(int id)
-        {
-            var subject = await _context.Subjects.FindAsync(id);
-            if (subject == null)
-            {
-                return NotFound();
-            }
-            return View(subject);
-        }
-
-        // POST: Administrator/DeleteSubjectConfirmed/{id}
-        [HttpPost, ActionName("DeleteSubjectConfirmed")]
+        // POST: Subject/Edit/5
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteSubjectConfirmed(int id)
+        public async Task<IActionResult> EditSubject(int id, Subject subject)
         {
-            var subject = await _context.Subjects.FindAsync(id);
-            if (subject == null)
+            if (id != subject.SubjectId) // Correct the ID check to match the Subject ID
             {
                 return NotFound();
             }
 
-            _context.Subjects.Remove(subject);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Subjects));
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(subject); // Update the subject entity, not teacher
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Subjects)); // Redirect to the subjects list after successful update
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    Console.WriteLine("Concurrency exception occurred while updating the subject.");
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error occurred: {ex.Message}");
+                    ModelState.AddModelError(string.Empty, "An error occurred while updating the subject.");
+                }
+            }
+
+            return View(subject); // If ModelState is invalid, return the view with the subject data
         }
+
 
     }
 }
