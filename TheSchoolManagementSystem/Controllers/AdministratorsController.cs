@@ -337,7 +337,6 @@ namespace TheSchoolManagementSystem.Controllers
             return View(subject);
         }
 
-        // GET: Administrator/EditSubject/{id}
         public async Task<IActionResult> EditSubject(int id)
         {
             var subject = await _context.Subjects.FindAsync(id);
@@ -360,32 +359,56 @@ namespace TheSchoolManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditSubject(int id, Subject subject)
         {
-            if (id != subject.SubjectId) // Correct the ID check to match the Subject ID
+             
+            // Ensure the ID matches the Subject being edited
+            if (id != subject.SubjectId)
             {
+                  Console.WriteLine($"ID sent2222: {id}");
                 return NotFound();
             }
 
+            Console.WriteLine($"ID sent2222: {id}");
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(subject); // Update the subject entity, not teacher
+                    // Retrieve the subject from the database
+                    var subjectToUpdate = await _context.Subjects.FindAsync(id);
+                    
+                    // Check if the subject exists
+                    if (subjectToUpdate == null)
+                    {
+                        return NotFound();
+                    }
+                    // Update the subject properties
+                    subjectToUpdate.SubjectName = subject.SubjectName;
+                    subjectToUpdate.TeacherId = subject.TeacherId;
+
+                    // Save the changes to the database
+                    _context.Update(subjectToUpdate);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Subjects)); // Redirect to the subjects list after successful update
+
+                    // Redirect to the list of subjects after successful update
+                    return RedirectToAction(nameof(Subjects)); 
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    Console.WriteLine("Concurrency exception occurred while updating the subject.");
-                    throw;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error occurred: {ex.Message}");
-                    ModelState.AddModelError(string.Empty, "An error occurred while updating the subject.");
-                }
+                 catch (DbUpdateConcurrencyException)
+                    {
+                        Console.WriteLine("Concurrency exception occurred while updating the subject.");
+                        ModelState.AddModelError(string.Empty, "A concurrency error occurred.");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error occurred: {ex.Message}");
+                        ModelState.AddModelError(string.Empty, "An error occurred while updating the subject.");
+                    }
             }
 
-            return View(subject); // If ModelState is invalid, return the view with the subject data
+            // If we get here, something failed; re-display the form
+             var teachers = await _context.Teachers
+            .Select(t => new { t.TeacherId, FullName = t.FirstName + " " + t.LastName })
+            .ToListAsync();
+            ViewBag.Teachers = new SelectList(teachers, "TeacherId", "FullName");
+            return View(subject);
         }
 
 

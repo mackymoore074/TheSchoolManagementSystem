@@ -5,6 +5,7 @@
 }
 
 <form asp-action="EditSubject" method="post">
+    <input type="hidden" name="SubjectId" value="@Model.SubjectId" />
     <div class="form-group">
         <label asp-for="SubjectName"></label>
         <input asp-for="SubjectName" class="form-control" />
