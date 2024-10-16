@@ -17,7 +17,7 @@ namespace TheSchoolManagementSystem.Models
         public string ClassName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Date of Birth is required")]
-        [DataType(DataType.Date)] // Ensure the format is compatible with input type="date"
+        [DataType(DataType.Date)] 
         public DateTime DateOfBirth { get; set; }
 
         [Required(ErrorMessage = "Address is required")]
@@ -32,7 +32,7 @@ namespace TheSchoolManagementSystem.Models
 
 
         // Foreign key for administrator
-        public int AdministratorId { get; set; }=1;
+        public int AdministratorId { get; set; } = 1;
         public Administrator? Administrator { get; set; }
 
         // Grades and performance can be stored in a separate entity/table

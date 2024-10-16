@@ -68,7 +68,7 @@ namespace TheSchoolManagementSystem.Controllers
         // GET: Register for Subjects
         public IActionResult RegisterSubject(int id)
         {
-            var student = _context.Students.Find(id); // Use Find for better readability
+            var student = _context.Students.Find(id); 
             if (student == null)
             {
                 return NotFound();
@@ -182,7 +182,6 @@ namespace TheSchoolManagementSystem.Controllers
             return View(grades);
         }
 
-        // Utility method to check if a student exists by ID (optional but useful)
         private bool StudentExists(int id)
         {
             return _context.Students.Any(e => e.StudentId == id);
