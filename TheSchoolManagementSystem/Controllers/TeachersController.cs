@@ -98,8 +98,9 @@ namespace TheSchoolManagementSystem.Controllers
         public IActionResult AwardMarks(int registrationId, int marks)
         {
             var registration = _context.Registrations
-        .Include(r => r.Student) 
-        .FirstOrDefault(r => r.RegistrationId == registrationId);
+                                .Include(r => r.Student) 
+                                .Include(r => r.Subject)
+                                .FirstOrDefault(r => r.RegistrationId == registrationId);
 
             if (registration == null)
             {
@@ -109,7 +110,8 @@ namespace TheSchoolManagementSystem.Controllers
             registration.Marks = marks;
             registration.Grade = registration.GetLetterGrade();
             _context.SaveChanges();
-            return View(registration);
+
+            return RedirectToAction("ViewStudents", new { teacherId = registration.Subject.TeacherId, subjectId = registration.SubjectId });
         }
     }
 }
